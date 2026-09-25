@@ -1,321 +1,212 @@
-# 📚 Library Management System
+# 📚 Django Library Management System
 
-A web-based **Library Management System** built with **Django** and **Python**, designed to simplify and automate common library operations such as managing books, members, borrowing, and returning books.
-
-The system provides a centralized platform for managing library resources and keeping track of book availability and borrowing activities.
+A complete **Library Management System** built with **Django**.  
+Manage books, students/members, borrowing transactions, categories, and users through a simple and practical web interface.
 
 ---
 
 ## ✨ Features
 
-* 📖 **Book Management**
+- **Book Management** — Add, edit, view, and soft-delete books (ISBN, title, author, publisher, publication date, etc.)
+- **Student / Member Management** — Register students with personal details, department, and course
+- **Borrowing System** — Record book loans and returns (Pending / Returned status)
+- **Categories & Sub-Categories** — Organize books hierarchically
+- **User Management** — Manage system users, profiles, and passwords
+- **Authentication** — Login / Logout with protected views
+- **Admin Panel** — Full Django admin support
+- **Responsive UI** — Clean templates with DataTables and Select2
+- **Static & Media Handling** — WhiteNoise for static files + media uploads (avatars, etc.)
+- **Docker Ready** — Includes Dockerfile (also deployable on Hugging Face Spaces)
 
-  * Add new books
-  * Edit book information
-  * Remove books
-  * View available books
-  * Track book availability
+---
+## 📸 Screenshots
 
-* 👥 **Member Management**
+> Place your screenshots inside a `screenshots/` folder in the repository root, then update the paths below.
 
-  * Add and manage library members
-  * View member information
-  * Track borrowing activities
+### Login Page
+![Login Page](screenshots/login.png)
 
-* 🔄 **Borrow & Return Management**
+### Dashboard / Home
+![Dashboard](screenshots/home.png)
 
-  * Borrow books
-  * Return borrowed books
-  * Track currently borrowed books
-  * Manage book availability
+### Books Management
+![Books List](screenshots/books.png)
 
-* 🔎 **Search & Filtering**
+### Students Management
+![Students List](screenshots/students.png)
 
-  * Search for books
-  * Find books by relevant information
-  * Check book availability
+### Borrowing Transactions
+![Borrows](screenshots/borrows.png)
 
-* 🔐 **User Authentication**
-
-  * User registration and login
-  * Secure authentication
-  * User session management
-
-* 📊 **Library Management**
-
-  * Centralized management of library data
-  * Organized book and member records
-  * Easy access to borrowing information
+### Categories
+![Categories](screenshots/categories.png)
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Tech Stack
 
-* **Python**
-* **Django**
-* **HTML5**
-* **CSS3**
-* **JavaScript**
-* **SQLite** / Database configured in the project
+| Technology       | Version / Notes              |
+|------------------|------------------------------|
+| Python           | 3.11+                        |
+| Django           | 4.2.16                       |
+| Database         | SQLite3 (included)           |
+| Image handling   | Pillow                       |
+| Static files     | WhiteNoise                   |
+| Production server| Gunicorn                     |
+| Container        | Docker                       |
+| Frontend extras  | DataTables, Select2          |
+
+---
+
+## 🔑 Default Login Credentials
+
+| Field      | Value      |
+|------------|------------|
+| **Username** | `admin`    |
+| **Password** | `admin123` |
+
+> If these credentials do not work, create a new superuser with:
+> ```bash
+> python manage.py createsuperuser
+> ```
+
+---
+
+## 🚀 Quick Start (Local)
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/YOUR_USERNAME/django-library-management.git
+cd django-library-management
+```
+
+### 2. Create a virtual environment (recommended)
+```bash
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Apply migrations
+```bash
+python manage.py migrate
+```
+
+### 5. Run the development server
+```bash
+python manage.py runserver
+```
+
+Open your browser and go to:  
+**http://127.0.0.1:8000**
+
+---
+
+## 🐳 Run with Docker
+
+```bash
+# Build the image
+docker build -t django-lms .
+
+# Run the container
+docker run -p 7860:7860 django-lms
+```
+
+The application will be available at:  
+**http://localhost:7860**
+
+> The Dockerfile is configured for Hugging Face Spaces (port `7860`).  
+> For local use you can change the port mapping as needed.
 
 ---
 
 ## 📁 Project Structure
 
-```text
-Django-Library/
-│
-├── manage.py
-│
-├── <django_project>/
+```
+django_lms/
+├── django_lms/          # Project settings
 │   ├── settings.py
 │   ├── urls.py
-│   ├── asgi.py
-│   └── wsgi.py
-│
-├── <django_apps>/
-│   ├── models.py
+│   ├── wsgi.py
+│   └── asgi.py
+├── lmsApp/              # Main application
+│   ├── models.py        # Category, SubCategory, Books, Students, Borrow
 │   ├── views.py
 │   ├── urls.py
 │   ├── forms.py
-│   └── ...
-│
-├── templates/
-│
-├── static/
-│
+│   ├── admin.py
+│   ├── templates/       # HTML templates
+│   ├── templatetags/
+│   └── migrations/
+├── media/               # Uploaded files (avatars, etc.)
+├── static/              # CSS, JS, DataTables, Select2
+├── db.sqlite3           # SQLite database (demo data included)
+├── manage.py
 ├── requirements.txt
-│
+├── Dockerfile
 └── README.md
 ```
 
-> The exact structure may vary depending on the configuration and Django applications used in the project.
+---
+
+## 📊 Data Models Overview
+
+| Model         | Description                                      |
+|---------------|--------------------------------------------------|
+| **Category**  | Main book categories (Active / Inactive)         |
+| **SubCategory** | Sub-categories linked to a Category            |
+| **Books**     | Books with ISBN, title, author, publisher, etc.  |
+| **Students**  | Library members (name, contact, department, course) |
+| **Borrow**    | Borrowing transactions (Pending / Returned)      |
+
+Soft-delete is implemented via a `delete_flag` field on most models.
 
 ---
 
-## ⚙️ Installation
+## 📦 Requirements
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yegolzadeh/Django-Library.git
 ```
-
-Navigate to the project directory:
-
-```bash
-cd Django-Library
-```
-
----
-
-### 2. Create a Virtual Environment
-
-It is recommended to use a virtual environment to keep project dependencies isolated.
-
-```bash
-python -m venv venv
-```
-
-Activate the virtual environment.
-
-#### Windows
-
-```bash
-venv\Scripts\activate
-```
-
-#### macOS / Linux
-
-```bash
-source venv/bin/activate
+Django==4.2.16
+Pillow==10.4.0
+whitenoise==6.7.0
+gunicorn==22.0.0
 ```
 
 ---
 
-### 3. Install Dependencies
+## ⚠️ Important Notes
 
-If a `requirements.txt` file is included:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-### 4. Apply Database Migrations
-
-Run:
-
-```bash
-python manage.py makemigrations
-```
-
-Then:
-
-```bash
-python manage.py migrate
-```
+- This project is configured with `DEBUG = True` and is intended for **demo / development** use.
+- The included `db.sqlite3` already contains sample data and the default admin user.
+- Media files and the database are stored inside the project directory.
+- Before deploying to production:
+  - Set `DEBUG = False`
+  - Change `SECRET_KEY`
+  - Configure proper `ALLOWED_HOSTS`
+  - Consider using PostgreSQL or another production database
+  - Serve media files properly (not via Django)
 
 ---
 
-### 5. Create an Admin User
+## 🤝 Contributing
 
-To access the Django administration panel:
+Contributions, issues, and feature requests are welcome!  
+Feel free to fork the repository and submit a pull request.
 
-```bash
-python manage.py createsuperuser
-```
-
-Follow the instructions in the terminal to create the administrator account.
-
----
-
-### 6. Run the Development Server
-
-Start the Django development server:
-
-```bash
-python manage.py runserver
-```
-
-The application will normally be available at:
-
-```text
-http://127.0.0.1:8000/
-```
-
-Open the address in your browser to access the application.
-
----
-
-## 🗄️ Database
-
-The project uses Django's database framework for storing and managing application data.
-
-Database configuration can be found in:
-
-```text
-<django_project>/settings.py
-```
-
-For development, Django's default **SQLite** database can be used. The database can be replaced with another supported database system depending on deployment requirements.
-
----
-
-## 🔑 Admin Panel
-
-Django's built-in administration interface can be used to manage library data.
-
-After creating a superuser, access the admin panel at:
-
-```text
-http://127.0.0.1:8000/admin/
-```
-
-From the admin panel, authorized users can manage the application's registered data and records.
-
----
-
-## 📚 Main Entities
-
-Depending on the project configuration, the system can manage entities such as:
-
-* **Books**
-* **Authors**
-* **Categories**
-* **Members**
-* **Borrowing Records**
-* **Returns**
-* **Users**
-
-These entities are represented through Django models and are stored in the project's database.
-
----
-
-## 🔄 Basic Workflow
-
-The typical library workflow is:
-
-```text
-User
-  │
-  ▼
-Browse/Search Books
-  │
-  ▼
-Check Availability
-  │
-  ▼
-Borrow Book
-  │
-  ▼
-Borrowing Record Created
-  │
-  ▼
-Return Book
-  │
-  ▼
-Book Availability Updated
-```
-
----
-
-## 🎯 Project Objectives
-
-The main objectives of this project are to:
-
-* Digitize common library operations
-* Reduce manual record keeping
-* Improve book and member management
-* Track borrowing and returning activities
-* Provide an organized and user-friendly library platform
-* Demonstrate the practical use of Django for developing database-driven web applications
-
----
-
-## 🚀 Future Improvements
-
-Possible future improvements include:
-
-* 📧 Email notifications for due dates
-* ⏰ Automatic overdue tracking
-* 💰 Fine calculation for overdue books
-* 📱 Responsive mobile-friendly interface
-* 📊 Library statistics and dashboards
-* 🔍 Advanced search and filtering
-* 📷 Barcode or QR-code-based book management
-* 👤 Role-based access control
-* ☁️ Deployment to a cloud platform
-* 🔔 Notifications for unavailable/returned books
-
----
-
-## 🔒 Security
-
-For production deployment, the following security considerations should be addressed:
-
-* Store `SECRET_KEY` securely using environment variables
-* Set `DEBUG = False`
-* Configure `ALLOWED_HOSTS`
-* Use a production-ready database
-* Configure HTTPS
-* Protect sensitive credentials
-* Avoid committing passwords, API keys, and secret configuration files to GitHub
-
----
-
-## 🧪 Development
-
-This project is intended for educational and development purposes and can be extended with additional features depending on the requirements of the library.
-
----
-
-## 📌 Notes
-
-This project is built using the Django web framework and follows Django's standard project structure and development workflow.
-
-For local development, make sure Python and the required dependencies are installed before running the application.
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
@@ -324,11 +215,11 @@ For local development, make sure Python and the required dependencies are instal
 **Yeganeh Golzadeh**
 
 GitHub: [@yegolzadeh](https://github.com/yegolzadeh)
-
+Email: [yegolzadeh01@gmail.com](yegolzadeh01@gmail.com)
 ---
 
 ## 📄 License
 
-This project can be used and modified for educational and development purposes.
+This project is intended for educational and development purposes.
 
 If you plan to distribute or use the project commercially, consider adding an appropriate open-source license such as the MIT License.
