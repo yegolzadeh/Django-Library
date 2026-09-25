@@ -35,12 +35,6 @@ Manage books, students/members, borrowing transactions, categories, and users th
 ### Students Management
 ![Students List](screenshots/students.png)
 
-### Borrowing Transactions
-![Borrows](screenshots/borrows.png)
-
-### Categories
-![Categories](screenshots/categories.png)
-
 ---
 
 ## 🛠️ Tech Stack
@@ -216,6 +210,7 @@ Feel free to fork the repository and submit a pull request.
 
 GitHub: [@yegolzadeh](https://github.com/yegolzadeh)
 Email: [yegolzadeh01@gmail.com](yegolzadeh01@gmail.com)
+
 ---
 
 ## 📄 License
